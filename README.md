@@ -35,8 +35,10 @@ default editor for additional extensions:
 ```
 
 You can also open any file in H5Web with **right click -> Open with... -> H5Web
-(any extension)**, or, if you've already opened the file, by invoking **View:
-Reopen Editor With...** from the command palette:
+(any extension)**, or, if you've already opened the file, by
+[switching editor type](https://code.visualstudio.com/updates/v1_132#_switch-editor-types)
+(VS Code 1.132+) or invoking **View: Reopen Editor With...** from the command
+palette:
 
 ![GIF recording](./assets/vscode-openwith.gif)
 
