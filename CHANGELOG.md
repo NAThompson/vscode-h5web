@@ -2,6 +2,12 @@
 
 ## dev
 
+- 🐛 Reload the file instead of getting stuck on an error when it is deleted and
+  recreated, or when it is still being written
+  [#76](https://github.com/silx-kit/vscode-h5web/issues/76)
+- 🐛 Release the previous contents of the file when reloading it, instead of
+  retaining a copy of every version that has been loaded
+  [#76](https://github.com/silx-kit/vscode-h5web/issues/76)
 - 🧩 Open `.nde` files in H5Web by default
 
 ## [v0.2.2](https://github.com/silx-kit/vscode-h5web/compare/v0.2.1...v0.2.2)

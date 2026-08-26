@@ -18,6 +18,12 @@ import {
 import { type Message, MessageType } from './models';
 import { PLUGINS } from './plugins';
 
+// `watchFile` polls the file's stats, so it may well catch a file that is only
+// half-written, or that has been deleted but not recreated yet. Poll often, but
+// wait for the stats to stop changing before telling the viewer to reload.
+const WATCH_INTERVAL_IN_MS = 500;
+const SETTLE_DELAY_IN_MS = 1000;
+
 export default class H5WebViewer implements CustomReadonlyEditorProvider {
   public constructor(
     private readonly context: ExtensionContext,
@@ -51,23 +57,28 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
 
     webview.onDidReceiveMessage(async (evt: Message) => {
       if (evt.type === MessageType.Ready) {
-        const uri = webview.asWebviewUri(document.uri).toString();
-        const name = basename(document.uri.fsPath);
         const { size } = await workspace.fs.stat(document.uri);
+        this.postFileInfo(webview, document, size);
 
-        webview.postMessage({
-          type: MessageType.FileInfo,
-          data: { uri, name, size },
-        });
+        // Report the size the file has once it has settled, rather than the size
+        // it had when the editor was opened. `watchFile` reports a size of 0
+        // when the file is missing, which the viewer knows how to handle.
+        let settleTimeout: ReturnType<typeof setTimeout> | undefined;
 
-        watchFile(document.uri.fsPath, () => {
-          webview.postMessage({
-            type: MessageType.FileInfo,
-            data: { uri, name, size },
-          });
-        });
+        watchFile(
+          document.uri.fsPath,
+          { interval: WATCH_INTERVAL_IN_MS },
+          (curr) => {
+            clearTimeout(settleTimeout);
+            settleTimeout = setTimeout(
+              () => this.postFileInfo(webview, document, curr.size),
+              SETTLE_DELAY_IN_MS,
+            );
+          },
+        );
 
         webviewPanel.onDidDispose(() => {
+          clearTimeout(settleTimeout);
           unwatchFile(document.uri.fsPath);
         });
 
@@ -102,6 +113,21 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
           }
         }
       }
+    });
+  }
+
+  private postFileInfo(
+    webview: Webview,
+    document: CustomDocument,
+    size: number,
+  ): void {
+    webview.postMessage({
+      type: MessageType.FileInfo,
+      data: {
+        uri: webview.asWebviewUri(document.uri).toString(),
+        name: basename(document.uri.fsPath),
+        size,
+      },
     });
   }
 

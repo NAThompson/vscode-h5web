@@ -48,6 +48,9 @@ function App() {
 
   return (
     <ErrorBoundary
+      // Retry when the file changes, so a failed load doesn't outlive the
+      // version of the file that failed to load
+      resetKeys={[fileInfo]}
       fallbackRender={({ error }) => (
         <p>{error instanceof Error ? error.message : 'Unknown error'}</p>
       )}
