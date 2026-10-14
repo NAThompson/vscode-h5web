@@ -90,8 +90,8 @@
     "lint:eslint": "eslint --max-warnings=0",
     "lint:prettier": "prettier --cache --check .",
     "vscode:prepublish": "pnpm build",
-    "pub": "pnpm --allow-build=@vscode/vsce-sign --allow-build=keytar dlx @vscode/vsce publish --no-dependencies",
-    "pub:ovsx": "pnpm --allow-build=@vscode/vsce-sign --allow-build=keytar dlx ovsx publish --no-dependencies"
+    "pub": "node -e \"console.error('This fork is for local .vsix installs only and must not be published (see README).'); process.exit(1)\"",
+    "pub:ovsx": "node -e \"console.error('This fork is for local .vsix installs only and must not be published (see README).'); process.exit(1)\""
   },
   "dependencies": {
     "@h5web/app": "file:vendor/h5web-app-18.0.0-beta.3-5fce860.tgz",
@@ -117,5 +117,6 @@
     "prettier": "3.8.3",
     "typescript": "5.9.3",
     "vite": "8.0.7"
-  }
+  },
+  "private": true
 }
