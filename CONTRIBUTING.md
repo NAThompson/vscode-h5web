@@ -33,16 +33,20 @@ Code window where the extension is running with <kbd>Ctrl+R</kbd>.
 4. Once the `App` component is mounted, it notifies the extension that the
    viewer is ready using VS Code's
    [`postMessage` API](https://code.visualstudio.com/api/extension-guides/webview#scripts-and-message-passing).
-5. The extension then sends the URI and name of the HDF5 file opened by the user
-   to the viewer.
-6. Finally, the viewer fetches the file with the given URI as an array buffer,
-   passes that buffer to the `H5WasmBufferProvider`, and renders H5Web's `App`
-   component.
-7. If the file is larger than 2 GB and can't fit into a single buffer, the `App`
+5. The extension then sends the name of the HDF5 file opened by the user to the
+   viewer, with the URL at which its range server (`RangeServer.ts`) serves the
+   file on the loopback interface (local files only).
+6. The viewer passes that URL to H5Web's `H5WasmRemoteFileProvider`, whose
+   worker reads the file lazily with synchronous range requests (only the parts
+   needed to display what's selected), and renders H5Web's `App` component.
+   Requests are made to `h5web.localhost`, which Chromium resolves to the
+   loopback interface and which, unlike `localhost`, is not intercepted by the
+   webview's service worker.
+7. In remote windows, or if the range server can't start, the viewer fetches the
+   whole file with its webview URI and passes the buffer to
+   `H5WasmBufferProvider` instead. If the file is larger than 2 GB, the `App`
    component renders a fallback `StandaloneViewer`, which offers to the user to
-   browse for the file from inside the webview. In doing so, the webview can
-   make use of H5Web's `H5WasmLocalFileProvider`, which has no file size
-   restriction.
+   browse for the file from inside the webview (`H5WasmLocalFileProvider`).
 
 ## Code quality
 
@@ -54,77 +58,7 @@ Code window where the extension is running with <kbd>Ctrl+R</kbd>.
 
 ## Publishing
 
-The H5Web extension is published to the
-[Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=h5web.vscode-h5web)
-and to the [Open VSX Registry](https://open-vsx.org/). To be able to publish to
-these platforms, you must first follow the steps outlined in the respective
-sections below.
-
-Before publishing, remember to update the `CHANGELOG` and commit/push all
-changes. Then, run the following command to publish the extension to the VS Code
-Marketplace:
-
-```bash
-pnpm pub <patch|minor|major|x.y.z>
-```
-
-This will build the front-end app and the extension, bump the version in
-`package.json` and publish the extension to the Marketplace.
-
-> Do not use the `pnpm publish` command, as this is a reserved command for
-> publishing packages to the NPM repository.
-
-It will take a few minutes before the new version appears in the Marketplace,
-and it may take a while longer before you're able to update the extension in VS
-Code.
-
-Once you're able to install the new version and confirm that it works as
-expected, proceed with publishing the extension to the Open VSX Registry:
-
-```bash
-pnpm pub:ovsx -p <token>
-```
-
-> Do not pass a version number this time!
-
-Once the extension is published, push the tag created by the first `pnpm pub`
-command, and
-[publish a new release](https://github.com/silx-kit/vscode-h5web/releases/) on
-GitHub to advertise it.
-
-### Visual Studio Marketplace
-
-To be allowed to
-[publish an extension](https://code.visualstudio.com/api/working-with-extensions/publishing-extension)
-to the Visual Studio Marketplace you must have access to both the
-[**H5Web** publisher account](https://marketplace.visualstudio.com/manage/publishers/h5web)
-on the Marketplace and the
-[**H5Web** organisation](https://dev.azure.com/H5Web/) on Azure DevOps, with the
-same Microsoft account.
-
-Then, you have to
-[generate a Personal Access Token](https://code.visualstudio.com/api/working-with-extensions/publishing-extension#get-a-personal-access-token)
-(PAT) on Azure DevOps. Then, use the `vsce` CLI and your PAT to add `h5web` to
-the list of known publishers on your machine:
-
-```bash
-pnpx vsce login h5web
-```
-
-You're now ready to publish the extension to the Visual Studio Marketplace.
-
-### Open VSX Registry
-
-Users of VSCodium and other forks of VSCode may not be able to install
-extensions from the Visual Studio Marketplace. The Open VSX Registry is an
-alternative managed by the Eclipse Foundation.
-
-To be allowed to
-[publish an extension](https://github.com/eclipse/openvsx/wiki/Publishing-Extensions)
-to the registry you must create an [Eclipse](https://www.eclipse.org/) account,
-link it to your Open VSX Registry account, create a personal access token, and
-be added as a member of the `h5web` namespace by an owner of that namespace.
-
-> If the `h5web` namespace no longer has an owner, you may
-> [claim ownership](https://github.com/eclipse/openvsx/wiki/Namespace-Access#how-to-claim-a-namespace)
-> publicly.
+This fork must **not** be published to the Visual Studio Marketplace or the Open
+VSX Registry: the `pub` and `pub:ovsx` scripts exit with an error, and
+`package.json` is marked `"private"`. Package it as a `.vsix` instead (see
+"Building the fork" in the README).

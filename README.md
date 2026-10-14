@@ -1,4 +1,24 @@
-# [H5Web](https://h5web.panosc.eu/) for Visual Studio Code
+# [H5Web](https://h5web.panosc.eu/) for Visual Studio Code — personal fork
+
+> **This is a personal fork of
+> [silx-kit/vscode-h5web](https://github.com/silx-kit/vscode-h5web), for local
+> `.vsix` installs only. It is not, and must never be, published to the VS Code
+> Marketplace or Open VSX** (the `pub` scripts refuse to run).
+>
+> ```bash
+> code --install-extension h5web-fork-<sha>.vsix
+> ```
+>
+> Differences from upstream:
+>
+> - Local files are read lazily (only what is displayed), so files of any size
+>   open quickly, straight from the Explorer.
+> - Uses the 64-bit (Memory64) build of HDF5 2.0 when the webview supports it
+>   (falls back to 32-bit otherwise; see `h5webFork.wasm64`).
+> - Editors and settings use the `h5webFork.*` prefix, so the fork can be
+>   installed alongside the upstream extension.
+> - Built against forked H5Web, h5wasm and h5wasm-plugins (see
+>   [Building the fork](#building-the-fork)).
 
 Explore and visualise **HDF5 files** directly in Visual Studio Code with
 [H5Web](https://h5web.panosc.eu/) and its `H5WasmProvider`.
@@ -31,12 +51,12 @@ default editor for additional extensions:
 
 ```json
 "workbench.editorAssociations": {
-  "*.foo": "h5web.viewer",
+  "*.foo": "h5webFork.viewer",
 },
 ```
 
 You can also open any file in H5Web with **right click -> Open with... -> H5Web
-(any extension)**, or, if you've already opened the file, by
+(fork, any extension)**, or, if you've already opened the file, by
 [switching editor type](https://code.visualstudio.com/updates/v1_132#_switch-editor-types)
 (VS Code 1.132+) or invoking **View: Reopen Editor With...** from the command
 palette:
@@ -67,10 +87,15 @@ available in
 This extension uses [h5wasm](https://github.com/usnistgov/h5wasm) to read HDF5
 files and therefore suffers from the following limitations:
 
-### Files bigger than 2GB cannot be opened automatically from the VS Code Explorer
+### Slices larger than about 2 GB cannot be displayed
 
-They can still be viewed with the extension. When opening such a file, the H5Web
-webview editor will request you to to browse and select it manually to open it.
+VS Code's Electron runtime cannot allocate a single buffer larger than about 2
+GB, so a slice (or dataset) larger than that cannot be loaded, even with the
+64-bit build of HDF5. Select a smaller slice instead (e.g. with a visualization
+that maps fewer dimensions).
+
+In remote windows (SSH, WSL, containers), files are fetched whole, so files
+larger than 2 GB must be browsed for from inside the editor.
 
 ### External links cannot be resolved
 
@@ -89,10 +114,39 @@ instead (e.g. via `apt`).
 
 ## Configuration
 
-### `h5web.colorScheme`
+### `h5webFork.colorScheme`
 
 Specifies whether to use a light or dark color scheme. By default, H5Web follows
 VS Code's theme.
 
 > After changing this setting, please reopen your H5Web editors for the new
 > color scheme to take effect.
+
+### `h5webFork.wasm64`
+
+Use the 64-bit (Memory64) build of HDF5 when the webview supports it (default),
+which can read larger slices than the 32-bit build. Turn it off to force the
+32-bit build. Without Memory64 support, the 32-bit build is always used.
+
+## Building the fork
+
+The forked dependencies are referenced as tarballs in `vendor/`, which are not
+committed. Download them (with SHA-256 verification) before installing:
+
+```bash
+node scripts/fetch-vendor.mjs # download vendor/*.tgz from GitHub releases
+pnpm install
+pnpm --allow-build=@vscode/vsce-sign --allow-build=keytar dlx @vscode/vsce package --no-dependencies -o h5web-fork-$(git rev-parse --short HEAD).vsix
+code --install-extension h5web-fork-<sha>.vsix
+```
+
+- `vendor/SHA256SUMS` lists the expected tarballs and their SHA-256
+  (`cd vendor && shasum -a 256 -c SHA256SUMS`).
+- `vendor/SOURCES` gives the URL of each tarball (GitHub release assets of
+  [NAThompson/h5web](https://github.com/NAThompson/h5web) branch `fork-vscode`,
+  [NAThompson/h5wasm](https://github.com/NAThompson/h5wasm) and
+  [NAThompson/h5wasm-plugins](https://github.com/NAThompson/h5wasm-plugins)).
+
+To switch to a published release, replace the `file:vendor/...` specs in
+`package.json` (dependencies) and `pnpm-workspace.yaml` (overrides) with the
+release asset URLs.
