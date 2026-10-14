@@ -140,7 +140,13 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
       readFileSync(join(extensionPath, 'dist/.vite/manifest.json'), 'utf-8'),
     ) as Manifest;
 
-    const [{ file: jsPath, css }] = Object.values(manifest);
+    // Other entries are lazy-loaded chunks (e.g. wasm64 worker)
+    const entry = Object.values(manifest).find((chunk) => chunk.isEntry);
+    if (!entry) {
+      throw new Error('Expected manifest to include entry chunk');
+    }
+
+    const { file: jsPath, css } = entry;
     if (css === undefined) {
       throw new Error('Expected manifest to include `css` files array');
     }
