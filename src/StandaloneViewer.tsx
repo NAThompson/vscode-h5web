@@ -2,15 +2,16 @@ import { App } from '@h5web/app';
 import { H5WasmLocalFileProvider } from '@h5web/h5wasm';
 import { type ReactNode, useState } from 'react';
 
-import { getExportURL, getPlugin } from './utils';
+import { getExportURL, getPluginGetter } from './utils';
 
 interface Props {
   disableDarkMode: boolean;
+  wasm64: boolean;
   customMessage?: ReactNode;
 }
 
 function StandaloneViewer(props: Props) {
-  const { disableDarkMode, customMessage } = props;
+  const { disableDarkMode, wasm64, customMessage } = props;
   const [fallbackFile, setFallbackFile] = useState<File>();
 
   if (!fallbackFile) {
@@ -30,8 +31,8 @@ function StandaloneViewer(props: Props) {
     <H5WasmLocalFileProvider
       file={fallbackFile}
       getExportURL={getExportURL}
-      getPlugin={getPlugin}
-      wasm64
+      getPlugin={getPluginGetter(wasm64)}
+      wasm64={wasm64}
     >
       <App disableDarkMode={disableDarkMode} />
     </H5WasmLocalFileProvider>

@@ -7,6 +7,7 @@ import { type FileInfo, type Message, MessageType } from '../extension/models';
 import styles from './App.module.css';
 import ErrorFallback from './ErrorFallback';
 import StandaloneViewer from './StandaloneViewer';
+import { shouldUseWasm64 } from './utils';
 import Viewer from './Viewer';
 import { vscode } from './vscode-api';
 
@@ -31,6 +32,15 @@ function App() {
     return null;
   }
 
+  if (!fileInfo.exists) {
+    return (
+      <div className={styles.missing}>
+        <p>File was deleted or moved</p>
+        <p>It will reload automatically if it is restored.</p>
+      </div>
+    );
+  }
+
   if (fileInfo.size === 0) {
     // e.g. when comparing git changes on an untracked file - https://github.com/silx-kit/vscode-h5web/issues/22
     return <p>File does not exist</p>;
@@ -47,6 +57,7 @@ function App() {
     return (
       <StandaloneViewer
         disableDarkMode={disableDarkMode}
+        wasm64={shouldUseWasm64(fileInfo.wasm64)}
         customMessage={
           <p>
             File is too large to be opened from the explorer (max 2 GB). Please

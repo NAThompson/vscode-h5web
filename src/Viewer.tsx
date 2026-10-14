@@ -3,7 +3,7 @@ import { H5WasmRemoteFileProvider } from '@h5web/h5wasm';
 
 import { type FileInfo } from '../extension/models.js';
 import BufferViewer from './BufferViewer';
-import { getExportURL, getPlugin } from './utils';
+import { getExportURL, getPluginGetter, shouldUseWasm64 } from './utils';
 import WidthGuard from './WidthGuard.js';
 
 interface Props {
@@ -13,6 +13,7 @@ interface Props {
 
 function Viewer(props: Props) {
   const { fileInfo, disableDarkMode } = props;
+  const wasm64 = shouldUseWasm64(fileInfo.wasm64);
 
   const app = (
     <WidthGuard>
@@ -28,8 +29,8 @@ function Viewer(props: Props) {
         filename={fileInfo.name}
         resetKeys={[fileInfo]}
         getExportURL={getExportURL}
-        getPlugin={getPlugin}
-        wasm64
+        getPlugin={getPluginGetter(wasm64)}
+        wasm64={wasm64}
       >
         {app}
       </H5WasmRemoteFileProvider>

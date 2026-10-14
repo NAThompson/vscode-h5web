@@ -2,3 +2,16 @@
   font-size: 125%;
   margin: 1rem 0;
 }
+
+.missing {
+  margin: 1rem 0;
+  font-size: 125%;
+}
+
+.missing > p {
+  margin: 0 0 1rem;
+}
+
+.missing > p:first-child {
+  font-weight: bold;
+}

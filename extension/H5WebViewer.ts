@@ -22,7 +22,7 @@ import {
   workspace,
 } from 'vscode';
 
-import { type Message, MessageType } from './models';
+import { type FileInfo, type Message, MessageType } from './models';
 import { PLUGINS } from './plugins';
 import type RangeServer from './RangeServer';
 
@@ -57,36 +57,63 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
 
     /* Read local files lazily via the loopback range server. In remote windows, the
      * server would run on the remote machine, out of the webview's reach, so fall back
-     * to fetching the whole file through VS Code's resource loader. */
-    const isLazy =
-      document.uri.scheme === 'file' && env.remoteName === undefined;
-    const rangeOrigin = isLazy ? await this.rangeServer.getOrigin() : undefined;
-
+     * to fetching the whole file through VS Code's resource loader (as when the server
+     * fails to start). */
+    let rangeOrigin: string | undefined;
     let rangeUrl: string | undefined;
-    if (isLazy) {
-      const [url, unregister] = await this.rangeServer.register(
-        document.uri.fsPath,
-        basename(document.uri.fsPath),
-      );
-      rangeUrl = url;
-      webviewPanel.onDidDispose(unregister);
+    if (document.uri.scheme === 'file' && env.remoteName === undefined) {
+      try {
+        rangeOrigin = await this.rangeServer.getOrigin();
+        const [url, unregister] = await this.rangeServer.register(
+          document.uri.fsPath,
+          basename(document.uri.fsPath),
+        );
+        rangeUrl = url;
+        webviewPanel.onDidDispose(unregister);
+      } catch (error) {
+        rangeOrigin = undefined;
+        this.outputChannel.warn(
+          'Unable to start range server; fetching whole file instead:',
+          error instanceof Error ? error.message : 'unknown error',
+        );
+      }
     }
 
     // eslint-disable-next-line require-atomic-updates
     webview.html = await this.getHtmlForWebview(webview, rangeOrigin);
 
+    const { outputChannel } = this;
+    const wasm64 = workspace.getConfiguration('h5webFork').get('wasm64', true);
+
     async function postFileInfo() {
-      const { size, mtime } = await workspace.fs.stat(document.uri);
-      webview.postMessage({
-        type: MessageType.FileInfo,
-        data: {
-          uri: webview.asWebviewUri(document.uri).toString(),
-          rangeUrl,
-          name: basename(document.uri.fsPath),
-          size,
-          mtime,
-        },
-      } satisfies Message);
+      const fileInfo = {
+        uri: webview.asWebviewUri(document.uri).toString(),
+        rangeUrl,
+        name: basename(document.uri.fsPath),
+        wasm64,
+      };
+
+      let data: FileInfo;
+      try {
+        const { size, mtime } = await workspace.fs.stat(document.uri);
+        data = { ...fileInfo, exists: true, size, mtime };
+      } catch (error) {
+        // File deleted or moved: let webview say so instead of showing stale data
+        outputChannel.info(
+          'Unable to stat file:',
+          error instanceof Error ? error.message : 'unknown error',
+        );
+        data = { ...fileInfo, exists: false, size: 0, mtime: 0 };
+      }
+
+      try {
+        await webview.postMessage({
+          type: MessageType.FileInfo,
+          data,
+        } satisfies Message);
+      } catch {
+        // webview disposed
+      }
     }
 
     // Reload when file is modified (but not merely accessed, e.g. by range server)
@@ -171,10 +198,15 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
 
     const plugins = JSON.stringify(
       Object.fromEntries(
-        Object.entries(PLUGINS).map(([name, relativePath]) => {
-          const pluginUri = Uri.joinPath(extensionUri, 'out', relativePath);
-          return [name, webview.asWebviewUri(pluginUri).toString()];
-        }),
+        Object.entries(PLUGINS).map(([build, buildPlugins]) => [
+          build,
+          Object.fromEntries(
+            Object.entries(buildPlugins).map(([name, relativePath]) => {
+              const pluginUri = Uri.joinPath(extensionUri, 'out', relativePath);
+              return [name, webview.asWebviewUri(pluginUri).toString()];
+            }),
+          ),
+        ]),
       ),
     );
 
@@ -188,7 +220,7 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
     ];
 
     const colorScheme = workspace
-      .getConfiguration('h5web')
+      .getConfiguration('h5webFork')
       .get('colorScheme', 'vscode');
 
     return `

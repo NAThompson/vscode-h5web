@@ -15,8 +15,10 @@ export interface FileInfo {
   uri: string; // webview URI, to fetch whole file
   rangeUrl?: string; // range server URL, to read file lazily (local files only)
   name: string;
+  exists: boolean; // `false` if file was deleted or moved
   size: number;
   mtime: number;
+  wasm64: boolean; // whether 64-bit build of h5wasm may be used (if supported by webview)
 }
 
 export interface Export {

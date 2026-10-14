@@ -3,7 +3,12 @@ import { type PropsWithChildren } from 'react';
 import { suspend } from 'suspend-react';
 
 import { type FileInfo } from '../extension/models.js';
-import { FetchError, getExportURL, getPlugin } from './utils';
+import {
+  FetchError,
+  getExportURL,
+  getPluginGetter,
+  shouldUseWasm64,
+} from './utils';
 
 interface Props {
   fileInfo: FileInfo;
@@ -12,6 +17,7 @@ interface Props {
 /* Fallback for files that can't be read lazily (e.g. remote windows, other URI schemes) */
 function BufferViewer(props: PropsWithChildren<Props>) {
   const { fileInfo, children } = props;
+  const wasm64 = shouldUseWasm64(fileInfo.wasm64);
 
   const buffer = suspend(async () => {
     // Make a range request so that VS Code's webview service worker doesn't keep a copy of it
@@ -30,8 +36,8 @@ function BufferViewer(props: PropsWithChildren<Props>) {
       filename={fileInfo.name}
       buffer={buffer}
       getExportURL={getExportURL}
-      getPlugin={getPlugin}
-      wasm64
+      getPlugin={getPluginGetter(wasm64)}
+      wasm64={wasm64}
     >
       {children}
     </H5WasmBufferProvider>
