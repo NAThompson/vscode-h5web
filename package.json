@@ -81,8 +81,9 @@
   },
   "main": "./out/main.js",
   "scripts": {
-    "build": "pnpm build:app && pnpm clean:extension && pnpm build:extension --minify",
+    "build": "pnpm build:app && pnpm notices && pnpm clean:extension && pnpm build:extension --minify",
     "build:app": "vite build",
+    "notices": "node scripts/third-party-notices.mjs",
     "clean:extension": "node -e \"fs.rmSync('out', { recursive: true, force: true })\"",
     "build:extension": "esbuild ./extension/index.ts --bundle --outfile=out/main.js --external:vscode --loader:.so=file --format=esm --platform=node",
     "watch": "pnpm build:extension --sourcemap --watch",

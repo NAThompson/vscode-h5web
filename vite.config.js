@@ -8,6 +8,7 @@ export default defineConfig({
     sourcemap: 'inline', // can't load external sourcemaps from webviews
     emptyOutDir: true,
     manifest: true, // generate manifest so extension can find output files
+    license: true, // list licences of bundled dependencies in `.vite/license.md` (cf. `THIRD_PARTY_NOTICES.md`)
     rollupOptions: {
       // Overwrite default `index.html` entry
       // https://vite.dev/guide/backend-integration.html
