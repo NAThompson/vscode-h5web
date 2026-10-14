@@ -22,5 +22,5 @@
     "useDefineForClassFields": true,
     "useUnknownInCatchVariables": true
   },
-  "include": ["*", "extension"]
+  "include": ["*", "extension", "scripts"]
 }
