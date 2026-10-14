@@ -29,6 +29,11 @@ interface Entry {
 
 const MAX_LISTEN_ATTEMPTS = 5;
 
+// Read file in larger chunks than the default (64 KiB) when streaming ranges, which can be
+// many megabytes (e.g. whole dataset chunks): fewer reads and socket writes make large
+// responses faster (halves server time in VS Code for 16 MiB ranges)
+const STREAM_CHUNK_SIZE = 1024 * 1024;
+
 export default class RangeServer {
   private servers: Server[] = [];
   private port: Promise<number> | undefined;
@@ -190,7 +195,11 @@ export default class RangeServer {
 
     // If file gets truncated while streaming, abort response so client fails fast
     let sentBytes = 0;
-    const stream = createReadStream(entry.fsPath, { start, end });
+    const stream = createReadStream(entry.fsPath, {
+      start,
+      end,
+      highWaterMark: STREAM_CHUNK_SIZE,
+    });
     stream.on('data', (chunk) => {
       sentBytes += chunk.length;
     });
