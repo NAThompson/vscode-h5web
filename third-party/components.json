@@ -1,0 +1,388 @@
+[
+  {
+    "id": "h5wasm",
+    "name": "h5wasm (fork)",
+    "version": "0.10.3 (fork 51abeec)",
+    "usedIn": "webview worker (JS + WebAssembly)",
+    "license": "NIST public-domain notice",
+    "files": [
+      {
+        "label": "LICENSE.txt",
+        "file": "licenses/h5wasm.txt",
+        "origin": "vendor/h5wasm-0.10.3-fork-51abeec.tgz:package/LICENSE.txt"
+      }
+    ]
+  },
+  {
+    "id": "libhdf5-wasm",
+    "name": "libhdf5-wasm",
+    "version": "HDF5 2.0.0 build",
+    "usedIn": "compiled into h5wasm",
+    "license": "NIST public-domain notice",
+    "files": [
+      {
+        "label": "LICENSE.txt",
+        "file": "licenses/libhdf5-wasm.txt",
+        "origin": "libhdf5-wasm/LICENSE.txt"
+      }
+    ]
+  },
+  {
+    "id": "hdf5",
+    "name": "HDF5",
+    "version": "2.0.0",
+    "usedIn": "compiled into h5wasm",
+    "license": "BSD-3-Clause",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/hdf5.txt",
+        "origin": "hdf5-src/LICENSE (libhdf5-wasm build tree)"
+      }
+    ]
+  },
+  {
+    "id": "zlib",
+    "name": "zlib",
+    "version": "1.3.1",
+    "usedIn": "compiled into h5wasm (deflate filter) and plugins",
+    "license": "Zlib",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/zlib.txt",
+        "origin": "hdf5_zlib-src/LICENSE (libhdf5-wasm build tree)"
+      }
+    ]
+  },
+  {
+    "id": "libaec",
+    "name": "libaec (SZIP)",
+    "version": "1.1.3",
+    "usedIn": "compiled into h5wasm (szip filter)",
+    "license": "BSD-2-Clause",
+    "files": [
+      {
+        "label": "LICENSE.txt",
+        "file": "licenses/libaec.txt",
+        "origin": "szip-src/LICENSE.txt (libhdf5-wasm build tree)"
+      }
+    ]
+  },
+  {
+    "id": "h5wasm-plugins",
+    "name": "h5wasm-plugins (fork)",
+    "version": "0.3.0 (fork 4677c68)",
+    "usedIn": "compression plugins (out/*.so)",
+    "license": "Apache-2.0",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/h5wasm-plugins.txt",
+        "origin": "vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz:package/LICENSE"
+      },
+      {
+        "label": "COPYING",
+        "file": "licenses/h5wasm-plugins-1.txt",
+        "origin": "vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz:package/COPYING"
+      }
+    ]
+  },
+  {
+    "id": "hdf5-plugins",
+    "name": "HDF5 filter plugins (hdf5_plugins)",
+    "version": "h5wasm-plugins pin",
+    "usedIn": "compression plugins (filter wrappers)",
+    "license": "BSD-3-Clause-style (The HDF Group)",
+    "files": [
+      {
+        "label": "COPYING",
+        "file": "licenses/hdf5-plugins.txt",
+        "origin": "h5pl-src/COPYING"
+      }
+    ]
+  },
+  {
+    "id": "bitgroom",
+    "name": "BitGroom filter",
+    "version": "hdf5_plugins",
+    "usedIn": "libH5Zbitgroom.so",
+    "license": "BSD-3-Clause",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/bitgroom.txt",
+        "origin": "h5pl-src/BITGROOM/Additional_Legal/LICENSE"
+      }
+    ]
+  },
+  {
+    "id": "bitround",
+    "name": "BitRound filter",
+    "version": "hdf5_plugins",
+    "usedIn": "libH5Zbitround.so",
+    "license": "BSD-3-Clause",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/bitround.txt",
+        "origin": "h5pl-src/BITROUND/Additional_Legal/LICENSE"
+      }
+    ]
+  },
+  {
+    "id": "bitshuffle",
+    "name": "Bitshuffle",
+    "version": "hdf5_plugins",
+    "usedIn": "libH5Zbshuf.so",
+    "license": "MIT",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/bitshuffle.txt",
+        "origin": "h5pl-src/BSHUF/Additional_Legal/LICENSE"
+      }
+    ]
+  },
+  {
+    "id": "blosc",
+    "name": "C-Blosc",
+    "version": "1.21.6",
+    "usedIn": "libH5Zblosc.so",
+    "license": "BSD-3-Clause (bundled codecs: see below)",
+    "files": [
+      {
+        "label": "LICENSE.txt",
+        "file": "licenses/blosc.txt",
+        "origin": "blosc-src/LICENSE.txt"
+      },
+      {
+        "label": "LICENSES/BITSHUFFLE.txt",
+        "file": "licenses/blosc-1.txt",
+        "origin": "blosc-src/LICENSES/BITSHUFFLE.txt"
+      },
+      {
+        "label": "LICENSES/FASTLZ.txt",
+        "file": "licenses/blosc-2.txt",
+        "origin": "blosc-src/LICENSES/FASTLZ.txt"
+      },
+      {
+        "label": "LICENSES/LZ4.txt",
+        "file": "licenses/blosc-3.txt",
+        "origin": "blosc-src/LICENSES/LZ4.txt"
+      },
+      {
+        "label": "LICENSES/SNAPPY.txt",
+        "file": "licenses/blosc-4.txt",
+        "origin": "blosc-src/LICENSES/SNAPPY.txt"
+      },
+      {
+        "label": "LICENSES/STDINT.txt",
+        "file": "licenses/blosc-5.txt",
+        "origin": "blosc-src/LICENSES/STDINT.txt"
+      },
+      {
+        "label": "LICENSES/ZLIB-NG.txt",
+        "file": "licenses/blosc-6.txt",
+        "origin": "blosc-src/LICENSES/ZLIB-NG.txt"
+      },
+      {
+        "label": "LICENSES/ZLIB.txt",
+        "file": "licenses/blosc-7.txt",
+        "origin": "blosc-src/LICENSES/ZLIB.txt"
+      }
+    ]
+  },
+  {
+    "id": "blosc2",
+    "name": "C-Blosc2",
+    "version": "2.17.1",
+    "usedIn": "libH5Zblosc2.so",
+    "license": "BSD-3-Clause (bundled codecs: see below)",
+    "files": [
+      {
+        "label": "LICENSE.txt",
+        "file": "licenses/blosc2.txt",
+        "origin": "blosc2-src/LICENSE.txt"
+      },
+      {
+        "label": "LICENSES/BITSHUFFLE.txt",
+        "file": "licenses/blosc2-1.txt",
+        "origin": "blosc2-src/LICENSES/BITSHUFFLE.txt"
+      },
+      {
+        "label": "LICENSES/FASTLZ.txt",
+        "file": "licenses/blosc2-2.txt",
+        "origin": "blosc2-src/LICENSES/FASTLZ.txt"
+      },
+      {
+        "label": "LICENSES/LZ4.txt",
+        "file": "licenses/blosc2-3.txt",
+        "origin": "blosc2-src/LICENSES/LZ4.txt"
+      },
+      {
+        "label": "LICENSES/ZLIB.txt",
+        "file": "licenses/blosc2-4.txt",
+        "origin": "blosc2-src/LICENSES/ZLIB.txt"
+      },
+      {
+        "label": "LICENSES/ZSTD.txt",
+        "file": "licenses/blosc2-5.txt",
+        "origin": "blosc2-src/LICENSES/ZSTD.txt"
+      },
+      {
+        "label": "internal-complibs/zlib-ng/LICENSE.md",
+        "file": "licenses/blosc2-6.txt",
+        "origin": "blosc2-src/internal-complibs/zlib-ng-2.0.7/LICENSE.md"
+      }
+    ]
+  },
+  {
+    "id": "bzip2",
+    "name": "bzip2",
+    "version": "1.0.8",
+    "usedIn": "libH5Zbz2.so",
+    "license": "bzip2-1.0.6 (BSD-style)",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/bzip2.txt",
+        "origin": "bz2-src/LICENSE"
+      }
+    ]
+  },
+  {
+    "id": "lz4",
+    "name": "LZ4",
+    "version": "1.10.0",
+    "usedIn": "libH5Zlz4.so (and Blosc)",
+    "license": "BSD-2-Clause (lib/)",
+    "files": [
+      {
+        "label": "lib/LICENSE",
+        "file": "licenses/lz4.txt",
+        "origin": "lz4-src/lib/LICENSE"
+      },
+      {
+        "label": "filter LICENSE",
+        "file": "licenses/lz4-1.txt",
+        "origin": "h5pl-src/LZ4/Additional_Legal/LICENSE"
+      }
+    ]
+  },
+  {
+    "id": "zstd",
+    "name": "Zstandard",
+    "version": "1.5.6",
+    "usedIn": "libH5Zzstd.so (and Blosc2)",
+    "license": "BSD-3-Clause (Zstandard is dual-licensed BSD-3-Clause OR GPL-2.0; the BSD option is used); HDF5 filter wrapper: Apache-2.0",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/zstd.txt",
+        "origin": "zstd-src/LICENSE"
+      },
+      {
+        "label": "filter LICENSE",
+        "file": "licenses/zstd-1.txt",
+        "origin": "h5pl-src/ZSTD/Additional_Legal/LICENSE"
+      }
+    ],
+    "note": "dual-licensed with GPL-2.0; the BSD-3-Clause option is used"
+  },
+  {
+    "id": "lzf",
+    "name": "LibLZF",
+    "version": "3.6",
+    "usedIn": "libH5Zlzf.so",
+    "license": "BSD-2-Clause (dual-licensed BSD OR GPL-2.0+; used under BSD)",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/lzf.txt",
+        "origin": "lzf-src/LICENSE"
+      },
+      {
+        "label": "h5py filter licence",
+        "file": "licenses/lzf-1.txt",
+        "origin": "h5pl-src/LZF/Additional_Legal/h5py_Copyrights_and_Licenses.txt"
+      }
+    ],
+    "note": "dual-licensed with GPL-2.0-or-later; the BSD option is used"
+  },
+  {
+    "id": "zfp",
+    "name": "zfp",
+    "version": "1.0.1",
+    "usedIn": "libH5Zzfp.so",
+    "license": "BSD-3-Clause",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/zfp.txt",
+        "origin": "zfp-src/LICENSE"
+      },
+      {
+        "label": "H5Z-ZFP LICENSE",
+        "file": "licenses/zfp-1.txt",
+        "origin": "h5pl-src/ZFP/Additional_Legal/LICENSE"
+      }
+    ]
+  },
+  {
+    "id": "libjpeg",
+    "name": "IJG libjpeg",
+    "version": "9e",
+    "usedIn": "libH5Zjpeg.so",
+    "license": "IJG (permissive; requires acknowledgement)",
+    "files": [
+      {
+        "label": "README: LEGAL ISSUES",
+        "file": "licenses/libjpeg.txt",
+        "origin": "jpeg-src/README (LEGAL ISSUES section)"
+      }
+    ]
+  },
+  {
+    "id": "pytables-filters",
+    "name": "PyTables filter code (blosc, blosc2, bzip2, jpeg, zstd filters)",
+    "version": "hdf5_plugins",
+    "usedIn": "filter wrappers",
+    "license": "BSD-3-Clause",
+    "files": [
+      {
+        "label": "Copyrights and licenses",
+        "file": "licenses/pytables-filters.txt",
+        "origin": "h5pl-src/BLOSC/Additional_Legal/PyTables_Copyrights_and_Licenses.txt"
+      }
+    ]
+  },
+  {
+    "id": "modern-normalize",
+    "name": "modern-normalize",
+    "version": "3.0.1",
+    "usedIn": "webview CSS",
+    "license": "MIT",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/modern-normalize.txt",
+        "origin": "node_modules/.pnpm/modern-normalize@3.0.1/node_modules/modern-normalize/license"
+      }
+    ]
+  },
+  {
+    "id": "nanoid",
+    "name": "nanoid",
+    "version": "5.1.16",
+    "usedIn": "webview worker (bundled by @h5web/h5wasm)",
+    "license": "MIT",
+    "files": [
+      {
+        "label": "LICENSE",
+        "file": "licenses/nanoid.txt",
+        "origin": "node_modules/.pnpm/nanoid@5.1.16/node_modules/nanoid/LICENSE"
+      }
+    ]
+  }
+]
