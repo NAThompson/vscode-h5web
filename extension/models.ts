@@ -12,9 +12,11 @@ export enum MessageType {
 }
 
 export interface FileInfo {
-  uri: string;
+  uri: string; // webview URI, to fetch whole file
+  rangeUrl?: string; // range server URL, to read file lazily (local files only)
   name: string;
   size: number;
+  mtime: number;
 }
 
 export interface Export {

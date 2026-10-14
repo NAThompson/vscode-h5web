@@ -42,7 +42,8 @@ function App() {
   const { colorScheme } = document.body.dataset;
   const disableDarkMode = colorScheme !== 'system';
 
-  if (fileInfo.size >= MAX_SIZE_IN_BYTES) {
+  // Files read lazily have no size limit
+  if (!fileInfo.rangeUrl && fileInfo.size >= MAX_SIZE_IN_BYTES) {
     return (
       <StandaloneViewer
         disableDarkMode={disableDarkMode}

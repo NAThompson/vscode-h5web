@@ -6,6 +6,7 @@ import {
   commands,
   type CustomDocument,
   type CustomReadonlyEditorProvider,
+  env,
   type ExtensionContext,
   type LogOutputChannel,
   Uri,
@@ -17,11 +18,13 @@ import {
 
 import { type Message, MessageType } from './models';
 import { PLUGINS } from './plugins';
+import type RangeServer from './RangeServer';
 
 export default class H5WebViewer implements CustomReadonlyEditorProvider {
   public constructor(
     private readonly context: ExtensionContext,
     private readonly outputChannel: LogOutputChannel,
+    private readonly rangeServer: RangeServer,
   ) {}
 
   public async openCustomDocument(uri: Uri): Promise<CustomDocument> {
@@ -46,29 +49,50 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
       localResourceRoots: [extensionUri, resourceRoot],
     };
 
+    /* Read local files lazily via the loopback range server. In remote windows, the
+     * server would run on the remote machine, out of the webview's reach, so fall back
+     * to fetching the whole file through VS Code's resource loader. */
+    const isLazy =
+      document.uri.scheme === 'file' && env.remoteName === undefined;
+    const rangeOrigin = isLazy ? await this.rangeServer.getOrigin() : undefined;
+
+    let rangeUrl: string | undefined;
+    if (isLazy) {
+      const [url, unregister] = await this.rangeServer.register(
+        document.uri.fsPath,
+        basename(document.uri.fsPath),
+      );
+      rangeUrl = url;
+      webviewPanel.onDidDispose(unregister);
+    }
+
     // eslint-disable-next-line require-atomic-updates
-    webview.html = await this.getHtmlForWebview(webview);
+    webview.html = await this.getHtmlForWebview(webview, rangeOrigin);
+
+    async function postFileInfo() {
+      const { size, mtime } = await workspace.fs.stat(document.uri);
+      webview.postMessage({
+        type: MessageType.FileInfo,
+        data: {
+          uri: webview.asWebviewUri(document.uri).toString(),
+          rangeUrl,
+          name: basename(document.uri.fsPath),
+          size,
+          mtime,
+        },
+      } satisfies Message);
+    }
 
     webview.onDidReceiveMessage(async (evt: Message) => {
       if (evt.type === MessageType.Ready) {
-        const uri = webview.asWebviewUri(document.uri).toString();
-        const name = basename(document.uri.fsPath);
-        const { size } = await workspace.fs.stat(document.uri);
+        await postFileInfo();
 
-        webview.postMessage({
-          type: MessageType.FileInfo,
-          data: { uri, name, size },
-        });
-
-        watchFile(document.uri.fsPath, () => {
-          webview.postMessage({
-            type: MessageType.FileInfo,
-            data: { uri, name, size },
-          });
-        });
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
+        watchFile(document.uri.fsPath, postFileInfo);
 
         webviewPanel.onDidDispose(() => {
-          unwatchFile(document.uri.fsPath);
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          unwatchFile(document.uri.fsPath, postFileInfo); // other editors may still be watching the file
         });
 
         return;
@@ -105,7 +129,10 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
     });
   }
 
-  private async getHtmlForWebview(webview: Webview): Promise<string> {
+  private async getHtmlForWebview(
+    webview: Webview,
+    rangeOrigin: string | undefined,
+  ): Promise<string> {
     const { extensionPath, extensionUri } = this.context;
     const { cspSource } = webview;
 
@@ -136,7 +163,7 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
 
     const cspRules = [
       "default-src 'none'", // strict by default
-      `connect-src ${cspSource}`, // to allow fetching HDF5 file as buffer
+      `connect-src ${cspSource} ${rangeOrigin ?? ''}`, // to allow fetching HDF5 file (lazily from range server, or as buffer), and plugins
       `script-src ${cspSource} 'unsafe-eval'`, // 'unsafe-eval' because of cwise dependency in H5Web
       `style-src ${cspSource}`,
       'img-src blob:', // for JPEG/PNG images in Raw visualization
