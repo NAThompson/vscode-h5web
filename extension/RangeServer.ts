@@ -76,14 +76,14 @@ export default class RangeServer {
   private handle(req: IncomingMessage, res: ServerResponse): void {
     const { origin } = req.headers;
 
-    // Only serve webviews (and, for debugging, clients that don't send `Origin`)
-    if (origin !== undefined && !origin.startsWith('vscode-webview://')) {
+    // Only serve webviews (requests from the webview's worker are cross-origin, so always include `Origin`)
+    if (!origin?.startsWith('vscode-webview://')) {
       res.writeHead(403).end();
       return;
     }
 
     const corsHeaders = {
-      'Access-Control-Allow-Origin': origin ?? '*',
+      'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Headers': 'Range',
       'Access-Control-Expose-Headers': 'Content-Range, ETag, Last-Modified',
       'Access-Control-Allow-Private-Network': 'true',

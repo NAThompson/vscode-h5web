@@ -1,4 +1,10 @@
-import { readFileSync, unwatchFile, watchFile, writeFileSync } from 'node:fs';
+import {
+  readFileSync,
+  type Stats,
+  unwatchFile,
+  watchFile,
+  writeFileSync,
+} from 'node:fs';
 import { basename, dirname, join } from 'node:path';
 
 import { type Manifest } from 'vite';
@@ -83,16 +89,21 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
       } satisfies Message);
     }
 
+    // Reload when file is modified (but not merely accessed, e.g. by range server)
+    function onStatChange(curr: Stats, prev: Stats) {
+      if (curr.mtimeMs !== prev.mtimeMs || curr.size !== prev.size) {
+        void postFileInfo();
+      }
+    }
+
     webview.onDidReceiveMessage(async (evt: Message) => {
       if (evt.type === MessageType.Ready) {
         await postFileInfo();
 
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        watchFile(document.uri.fsPath, postFileInfo);
+        watchFile(document.uri.fsPath, onStatChange);
 
         webviewPanel.onDidDispose(() => {
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          unwatchFile(document.uri.fsPath, postFileInfo); // other editors may still be watching the file
+          unwatchFile(document.uri.fsPath, onStatChange); // other editors may still be watching the file
         });
 
         return;
