@@ -31,6 +31,7 @@ function StandaloneViewer(props: Props) {
       file={fallbackFile}
       getExportURL={getExportURL}
       getPlugin={getPlugin}
+      wasm64
     >
       <App disableDarkMode={disableDarkMode} />
     </H5WasmLocalFileProvider>

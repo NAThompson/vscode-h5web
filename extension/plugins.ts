@@ -1,15 +1,16 @@
+// wasm64 builds, to match `wasm64` option of H5Wasm providers
 import { type Plugin } from '@h5web/h5wasm';
-import bitgroom from 'h5wasm-plugins/plugins/libH5Zbitgroom.so';
-import bitround from 'h5wasm-plugins/plugins/libH5Zbitround.so';
-import blosc from 'h5wasm-plugins/plugins/libH5Zblosc.so';
-import blosc2 from 'h5wasm-plugins/plugins/libH5Zblosc2.so';
-import bshuf from 'h5wasm-plugins/plugins/libH5Zbshuf.so';
-import bz2 from 'h5wasm-plugins/plugins/libH5Zbz2.so';
-import jpeg from 'h5wasm-plugins/plugins/libH5Zjpeg.so';
-import lz4 from 'h5wasm-plugins/plugins/libH5Zlz4.so';
-import lzf from 'h5wasm-plugins/plugins/libH5Zlzf.so';
-import zfp from 'h5wasm-plugins/plugins/libH5Zzfp.so';
-import zstd from 'h5wasm-plugins/plugins/libH5Zzstd.so';
+import bitgroom from 'h5wasm-plugins/wasm64/plugins/libH5Zbitgroom.so';
+import bitround from 'h5wasm-plugins/wasm64/plugins/libH5Zbitround.so';
+import blosc from 'h5wasm-plugins/wasm64/plugins/libH5Zblosc.so';
+import blosc2 from 'h5wasm-plugins/wasm64/plugins/libH5Zblosc2.so';
+import bshuf from 'h5wasm-plugins/wasm64/plugins/libH5Zbshuf.so';
+import bz2 from 'h5wasm-plugins/wasm64/plugins/libH5Zbz2.so';
+import jpeg from 'h5wasm-plugins/wasm64/plugins/libH5Zjpeg.so';
+import lz4 from 'h5wasm-plugins/wasm64/plugins/libH5Zlz4.so';
+import lzf from 'h5wasm-plugins/wasm64/plugins/libH5Zlzf.so';
+import zfp from 'h5wasm-plugins/wasm64/plugins/libH5Zzfp.so';
+import zstd from 'h5wasm-plugins/wasm64/plugins/libH5Zzstd.so';
 
 export const PLUGINS = {
   bshuf,
