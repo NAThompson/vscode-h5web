@@ -88,10 +88,10 @@
     "pub:ovsx": "pnpm --allow-build=@vscode/vsce-sign --allow-build=keytar dlx ovsx publish --no-dependencies"
   },
   "dependencies": {
-    "@h5web/app": "file:vendor/h5web-app-18.0.0-beta.3.tgz",
-    "@h5web/h5wasm": "file:vendor/h5web-h5wasm-18.0.0-beta.3.tgz",
+    "@h5web/app": "file:vendor/h5web-app-18.0.0-beta.3-93ab5ad.tgz",
+    "@h5web/h5wasm": "file:vendor/h5web-h5wasm-18.0.0-beta.3-93ab5ad.tgz",
     "@react-hookz/web": "26.1.0",
-    "h5wasm-plugins": "file:vendor/h5wasm-plugins-0.3.0-wasm64-ef701fc.tgz",
+    "h5wasm-plugins": "file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz",
     "modern-normalize": "3.0.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
