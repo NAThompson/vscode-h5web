@@ -116,11 +116,20 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
       }
     }
 
-    // Reload when file is modified (but not merely accessed, e.g. by range server)
+    /* Reload when file is modified, deleted or restored, but not merely accessed (e.g. by
+     * range server). Missing files are reported with zeroed stats; when a file is restored,
+     * `prev` is the last stats of the file that existed, so track existence separately. */
+    let fileExisted = true;
     function onStatChange(curr: Stats, prev: Stats) {
-      if (curr.mtimeMs !== prev.mtimeMs || curr.size !== prev.size) {
+      const fileExists = curr.mtimeMs !== 0;
+      if (
+        fileExists !== fileExisted ||
+        curr.mtimeMs !== prev.mtimeMs ||
+        curr.size !== prev.size
+      ) {
         void postFileInfo();
       }
+      fileExisted = fileExists;
     }
 
     webview.onDidReceiveMessage(async (evt: Message) => {
