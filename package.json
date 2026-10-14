@@ -1,19 +1,18 @@
 {
   "name": "vscode-h5web",
-  "displayName": "H5Web",
-  "publisher": "h5web",
-  "description": "Visualize HDF5 files in VS Code",
-  "version": "0.2.2",
+  "displayName": "H5Web (fork)",
+  "publisher": "NAThompson",
+  "description": "Visualize HDF5 files in VS Code (fork: lazy reading of huge files, wasm64)",
+  "version": "0.3.0",
   "author": "European Synchrotron Radiation Facility",
   "license": "MIT",
   "homepage": "https://h5web.panosc.eu/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/silx-kit/vscode-h5web.git"
+    "url": "https://github.com/NAThompson/vscode-h5web.git"
   },
   "bugs": {
-    "url": "https://github.com/silx-kit/vscode-h5web/issues",
-    "email": "h5web@esrf.fr"
+    "url": "https://github.com/NAThompson/vscode-h5web/issues"
   },
   "icon": "assets/favicon192.png",
   "galleryBanner": {
