@@ -27,11 +27,14 @@ interface Entry {
   fsPath: string;
 }
 
+const MAX_LISTEN_ATTEMPTS = 5;
+
 export default class RangeServer {
-  private server: Server | undefined;
+  private servers: Server[] = [];
   private port: Promise<number> | undefined;
   private readonly entries = new Map<string, Entry>();
 
+  /* Rejects if server can't be started (callers may then fall back to fetching whole file) */
   public async getOrigin(): Promise<string> {
     return `http://${HOSTNAME}:${await this.start()}`;
   }
@@ -53,24 +56,61 @@ export default class RangeServer {
 
   public dispose(): void {
     this.entries.clear();
-    this.server?.close();
-    this.server = undefined;
+    this.closeServers();
     this.port = undefined;
   }
 
   private async start(): Promise<number> {
     if (!this.port) {
-      this.port = new Promise((resolve, reject) => {
-        const server = createServer((req, res) => this.handle(req, res));
-        server.on('error', reject);
-        server.listen(0, '127.0.0.1', () => {
-          resolve((server.address() as AddressInfo).port);
-        });
-        this.server = server;
-      });
+      this.port = this.listen();
     }
 
-    return this.port;
+    try {
+      return await this.port;
+    } catch (error) {
+      this.port = undefined; // don't cache failure, so next file can try again
+      throw error;
+    }
+  }
+
+  /* `h5web.localhost` may resolve to `::1` as well as `127.0.0.1`, so listen on the same port
+   * on both interfaces, lest another process listening on `[::1]:<port>` receive requests
+   * (and their tokens). If IPv6 is not available, IPv4 is enough. */
+  private async listen(): Promise<number> {
+    for (let attempt = 1; ; attempt += 1) {
+      const ipv4Server = this.newServer();
+      const port = await listenOn(ipv4Server, 0, '127.0.0.1'); // eslint-disable-line no-await-in-loop
+      this.servers = [ipv4Server];
+
+      const ipv6Server = this.newServer();
+      try {
+        await listenOn(ipv6Server, port, '::1'); // eslint-disable-line no-await-in-loop
+        this.servers.push(ipv6Server);
+        return port;
+      } catch (error) {
+        const { code } = error as NodeJS.ErrnoException;
+        if (code === 'EADDRNOTAVAIL' || code === 'EAFNOSUPPORT') {
+          return port; // no IPv6 loopback
+        }
+
+        // Port taken on IPv6 interface (or other error): try another port
+        this.closeServers();
+        if (attempt >= MAX_LISTEN_ATTEMPTS) {
+          throw error;
+        }
+      }
+    }
+  }
+
+  private newServer(): Server {
+    return createServer((req, res) => this.handle(req, res));
+  }
+
+  private closeServers(): void {
+    for (const server of this.servers) {
+      server.close();
+    }
+    this.servers = [];
   }
 
   private handle(req: IncomingMessage, res: ServerResponse): void {
@@ -148,10 +188,22 @@ export default class RangeServer {
       return;
     }
 
+    // If file gets truncated while streaming, abort response so client fails fast
+    let sentBytes = 0;
     const stream = createReadStream(entry.fsPath, { start, end });
+    stream.on('data', (chunk) => {
+      sentBytes += chunk.length;
+    });
+    stream.on('end', () => {
+      if (sentBytes < length) {
+        res.destroy();
+      } else {
+        res.end();
+      }
+    });
     stream.on('error', () => res.destroy());
     res.on('close', () => stream.destroy());
-    stream.pipe(res);
+    stream.pipe(res, { end: false });
   }
 }
 
@@ -180,6 +232,24 @@ function parseRange(
   }
 
   const start = Number(first);
+  if (last && Number(last) < start) {
+    return undefined; // invalid range (e.g. `bytes=9-0`): ignore it (RFC 9110, section 14.1.1)
+  }
+
   const end = last ? Math.min(Number(last), size - 1) : size - 1;
-  return start < size && start <= end ? [start, end] : null;
+  return start < size ? [start, end] : null;
+}
+
+async function listenOn(
+  server: Server,
+  port: number,
+  host: string,
+): Promise<number> {
+  return new Promise((resolve, reject) => {
+    server.once('error', reject);
+    server.listen(port, host, () => {
+      server.off('error', reject);
+      resolve((server.address() as AddressInfo).port);
+    });
+  });
 }
