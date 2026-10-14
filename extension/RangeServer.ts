@@ -16,7 +16,9 @@ import { type AddressInfo } from 'node:net';
  *   with `--enable-coi`.
  *
  * So we serve local files over HTTP on the loopback interface, with range requests,
- * and let h5wasm read them lazily with synchronous XHR from its worker. The webview
+ * and let h5wasm read them lazily with synchronous XHR from its worker. Large unfiltered
+ * dataset selections are read directly with concurrent asynchronous `fetch()` requests
+ * instead (at chunk addresses obtained from h5wasm), which is several times faster. The webview
  * reaches the server via a `*.localhost` host name: Chromium resolves it to the
  * loopback interface, and unlike `localhost` or `127.0.0.1`, it isn't intercepted by
  * the webview's service worker. Each file is only reachable via an unguessable token. */
