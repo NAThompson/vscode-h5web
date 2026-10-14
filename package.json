@@ -31,8 +31,8 @@
   "contributes": {
     "customEditors": [
       {
-        "viewType": "h5web.viewer",
-        "displayName": "H5Web",
+        "viewType": "h5webFork.viewer",
+        "displayName": "H5Web (fork)",
         "selector": [
           {
             "filenamePattern": "*.{h5,hdf,hdf5,hf5,nx,nxs,nx5,nexus,cxi,nc,nc4,loom,jld2,h5ebsd,edaxh5,oh5,dream3d,geoh5,h5oina,h5ad,nde}"
@@ -41,8 +41,8 @@
         "priority": "default"
       },
       {
-        "viewType": "h5web.fallback-viewer",
-        "displayName": "H5Web (any extension)",
+        "viewType": "h5webFork.fallback-viewer",
+        "displayName": "H5Web (fork, any extension)",
         "selector": [
           {
             "filenamePattern": "*"
@@ -52,9 +52,9 @@
       }
     ],
     "configuration": {
-      "title": "H5Web",
+      "title": "H5Web (fork)",
       "properties": {
-        "h5web.colorScheme": {
+        "h5webFork.colorScheme": {
           "description": "Specifies whether to use a light or dark color scheme. By default, follow VS Code's theme. Alternatively, follow the operating system's scheme or force a specific scheme.",
           "type": "string",
           "default": "vscode",
@@ -70,6 +70,11 @@
             "Use a light color scheme",
             "Use a dark color scheme"
           ]
+        },
+        "h5webFork.wasm64": {
+          "description": "Use the 64-bit (Memory64) build of HDF5 when the webview supports it, to read slices larger than what the 32-bit build can hold. Turn off to force the 32-bit build.",
+          "type": "boolean",
+          "default": true
         }
       }
     }
