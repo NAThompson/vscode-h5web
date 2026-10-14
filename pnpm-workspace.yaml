@@ -22,7 +22,7 @@ savePrefix: ''
 
 # Forked H5Web and h5wasm builds (transitive deps of `@h5web/app` and `@h5web/h5wasm`)
 overrides:
-  '@h5web/lib': file:vendor/h5web-lib-18.0.0-beta.3-b18cd13c.tgz
+  '@h5web/lib': file:vendor/h5web-lib-18.0.0-beta.3-1a70ee7.tgz
   h5wasm: file:vendor/h5wasm-0.10.3-fork-faf4a68.tgz
 
 # Pre-existing peer mismatches in lint tooling, surfaced when the lockfile is re-resolved
