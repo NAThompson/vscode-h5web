@@ -32,7 +32,15 @@ const flagged = [
     .map(({ name, note }) => `${name}: ${note}`),
 ];
 
-const unknown = jsPackages.filter(({ license }) => !PERMISSIVE.test(license));
+// SPDX expression (e.g. `(MIT AND Zlib)`, `(MPL-2.0 OR Apache-2.0)`): some option must be all permissive
+function isPermissive(license) {
+  return license
+    .replace(/^\((.*)\)$/u, '$1')
+    .split(' OR ')
+    .some((option) => option.split(' AND ').every((id) => PERMISSIVE.test(id)));
+}
+
+const unknown = jsPackages.filter(({ license }) => !isPermissive(license));
 if (unknown.length > 0) {
   console.error('Licences not known to be permissive:', unknown);
   process.exitCode = 1;
