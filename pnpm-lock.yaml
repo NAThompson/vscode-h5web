@@ -5,7 +5,7 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@h5web/lib': file:vendor/h5web-lib-18.0.0-beta.3-fa13097.tgz
+  '@h5web/lib': file:vendor/h5web-lib-18.0.0-beta.3-8305b94.tgz
   h5wasm: file:vendor/h5wasm-0.10.3-fork-faf4a68.tgz
 
 importers:
@@ -13,11 +13,11 @@ importers:
   .:
     dependencies:
       '@h5web/app':
-        specifier: file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz
-        version: file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))
+        specifier: file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz
+        version: file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))
       '@h5web/h5wasm':
-        specifier: file:vendor/h5web-h5wasm-18.0.0-beta.3-fa13097.tgz
-        version: file:vendor/h5web-h5wasm-18.0.0-beta.3-fa13097.tgz(@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0)))(@types/react@19.3.0)(h5wasm-plugins@file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz(h5wasm@0.10.3))(react@19.3.0)(typescript@5.9.3)
+        specifier: file:vendor/h5web-h5wasm-18.0.0-beta.3-8305b94.tgz
+        version: file:vendor/h5web-h5wasm-18.0.0-beta.3-8305b94.tgz(@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0)))(@types/react@19.3.0)(h5wasm-plugins@file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz(h5wasm@0.10.3))(react@19.3.0)(typescript@5.9.3)
       '@react-hookz/web':
         specifier: 26.1.0
         version: 26.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -136,10 +136,6 @@ packages:
     resolution: {integrity: sha512-KKBU1VGYR7ORr3At5HAtUQ+TV3SzRCXmA/8OdDZiLDBIZxVyzXuztPjfLd3BV1PRAQGCMWWSHYhL0F8d5uHBDQ==}
     engines: {node: '>=6.0.0'}
     hasBin: true
-
-  '@babel/runtime@7.28.4':
-    resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
-    engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.29.10':
     resolution: {integrity: sha512-NpugTzbKgGrNe45Ui32cN8vCFFMxVtP/9rtfwv0nP5FRDAjvYBxJcLVpYA9mr1jxP6cnIT7x9LUzuDTbWYYNRA==}
@@ -553,8 +549,8 @@ packages:
   '@floating-ui/utils@0.2.11':
     resolution: {integrity: sha512-RiB/yIh78pcIxl6lLMG0CgBXAZ2Y0eVHqMPYugu+9U0AeT6YBeiJpf7lbdJNIugFP5SIjwNRgo4DhR1Qxi26Gg==}
 
-  '@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz':
-    resolution: {integrity: sha512-O17TMy/imIRyXamkQGSAzgj45/prPVOe6PPJV0mBZv2lfqDUnhuoLpxJY04uFJzJawSGwSJpTcP+N6oONEI9XQ==, tarball: file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz}
+  '@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz':
+    resolution: {integrity: sha512-6wBhpr+TyEteE7k/BZ+tjhMaEPNsy9bJl4wBC4p66iUCoi8v+JLJ9krP/Nnu1/9XVHaU3daYGwnVHoI/T3FqFg==, tarball: file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz}
     version: 18.0.0-beta.3
     peerDependencies:
       '@types/react': 19.x
@@ -573,8 +569,8 @@ packages:
       typescript:
         optional: true
 
-  '@h5web/h5wasm@file:vendor/h5web-h5wasm-18.0.0-beta.3-fa13097.tgz':
-    resolution: {integrity: sha512-JN6VvkxPjpDY2o5MAvruodopl27tc8pes3HSpapEkgJdHJ4RhihXDQJfdRNmqKqO8UbVt1tunopW7g3juDJ/Dg==, tarball: file:vendor/h5web-h5wasm-18.0.0-beta.3-fa13097.tgz}
+  '@h5web/h5wasm@file:vendor/h5web-h5wasm-18.0.0-beta.3-8305b94.tgz':
+    resolution: {integrity: sha512-JN6VvkxPjpDY2o5MAvruodopl27tc8pes3HSpapEkgJdHJ4RhihXDQJfdRNmqKqO8UbVt1tunopW7g3juDJ/Dg==, tarball: file:vendor/h5web-h5wasm-18.0.0-beta.3-8305b94.tgz}
     version: 18.0.0-beta.3
     peerDependencies:
       '@h5web/app': 18.0.0-beta.3
@@ -590,8 +586,8 @@ packages:
       typescript:
         optional: true
 
-  '@h5web/lib@file:vendor/h5web-lib-18.0.0-beta.3-fa13097.tgz':
-    resolution: {integrity: sha512-lsYewX6tc5iJ+3hl/gJJXWp0wlVYzQzyk0CfW/h2NZk+DVX5EEy83g3GqbyTZpTnnse6EfwHjKeBPYZ4HHX96A==, tarball: file:vendor/h5web-lib-18.0.0-beta.3-fa13097.tgz}
+  '@h5web/lib@file:vendor/h5web-lib-18.0.0-beta.3-8305b94.tgz':
+    resolution: {integrity: sha512-xJ9kxgpZY6cfSYHe2SG5Qg5AM4HFStiL+GBa+hDGvybchsVXDgY7oHRElF0AeruIRfXI7bmaL/F2DsftUrG9pw==, tarball: file:vendor/h5web-lib-18.0.0-beta.3-8305b94.tgz}
     version: 18.0.0-beta.3
     peerDependencies:
       '@react-three/fiber': 9.x
@@ -3115,8 +3111,6 @@ snapshots:
     dependencies:
       '@babel/types': 7.28.5
 
-  '@babel/runtime@7.28.4': {}
-
   '@babel/runtime@7.29.10': {}
 
   '@babel/template@7.27.2':
@@ -3419,9 +3413,9 @@ snapshots:
 
   '@floating-ui/utils@0.2.11': {}
 
-  '@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))':
+  '@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))':
     dependencies:
-      '@h5web/lib': file:vendor/h5web-lib-18.0.0-beta.3-fa13097.tgz(@react-three/fiber@9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))
+      '@h5web/lib': file:vendor/h5web-lib-18.0.0-beta.3-8305b94.tgz(@react-three/fiber@9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))
       '@react-hookz/web': 26.1.0(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@react-three/fiber': 9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1)
       '@tanstack/react-query': 5.102.8(react@19.3.0)
@@ -3451,9 +3445,9 @@ snapshots:
       - react-native
       - use-sync-external-store
 
-  '@h5web/h5wasm@file:vendor/h5web-h5wasm-18.0.0-beta.3-fa13097.tgz(@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0)))(@types/react@19.3.0)(h5wasm-plugins@file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz(h5wasm@0.10.3))(react@19.3.0)(typescript@5.9.3)':
+  '@h5web/h5wasm@file:vendor/h5web-h5wasm-18.0.0-beta.3-8305b94.tgz(@h5web/app@file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0)))(@types/react@19.3.0)(h5wasm-plugins@file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz(h5wasm@0.10.3))(react@19.3.0)(typescript@5.9.3)':
     dependencies:
-      '@h5web/app': file:vendor/h5web-app-18.0.0-beta.3-fa13097.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))
+      '@h5web/app': file:vendor/h5web-app-18.0.0-beta.3-8305b94.tgz(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))
       comlink: 4.4.2
       h5wasm: file:vendor/h5wasm-0.10.3-fork-faf4a68.tgz
       nanoid: 5.1.16
@@ -3463,7 +3457,7 @@ snapshots:
       h5wasm-plugins: file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz(h5wasm@0.10.3)
       typescript: 5.9.3
 
-  '@h5web/lib@file:vendor/h5web-lib-18.0.0-beta.3-fa13097.tgz(@react-three/fiber@9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))':
+  '@h5web/lib@file:vendor/h5web-lib-18.0.0-beta.3-8305b94.tgz(@react-three/fiber@9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1))(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1)(typescript@5.9.3)(use-sync-external-store@1.7.0(react@19.3.0))':
     dependencies:
       '@floating-ui/react': 0.27.19(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@radix-ui/react-slider': 1.5.0(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
@@ -3661,7 +3655,7 @@ snapshots:
 
   '@react-three/fiber@9.8.1(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(three@0.185.1)':
     dependencies:
-      '@babel/runtime': 7.28.4
+      '@babel/runtime': 7.29.10
       '@types/webxr': 0.5.24
       base64-js: 1.5.1
       buffer: 6.0.3
@@ -3756,7 +3750,7 @@ snapshots:
   '@testing-library/dom@10.4.1':
     dependencies:
       '@babel/code-frame': 7.27.1
-      '@babel/runtime': 7.28.4
+      '@babel/runtime': 7.29.10
       '@types/aria-query': 5.0.4
       aria-query: 5.3.0
       dom-accessibility-api: 0.5.16
@@ -4366,7 +4360,7 @@ snapshots:
 
   canvg@3.0.11:
     dependencies:
-      '@babel/runtime': 7.28.4
+      '@babel/runtime': 7.29.10
       '@types/raf': 3.4.3
       core-js: 3.50.0
       raf: 3.4.1
