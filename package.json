@@ -95,8 +95,8 @@
     "pub:ovsx": "node -e \"console.error('This fork is for local .vsix installs only and must not be published (see README).'); process.exit(1)\""
   },
   "dependencies": {
-    "@h5web/app": "file:vendor/h5web-app-18.0.0-beta.3-2df1a54.tgz",
-    "@h5web/h5wasm": "file:vendor/h5web-h5wasm-18.0.0-beta.3-2df1a54.tgz",
+    "@h5web/app": "file:vendor/h5web-app-18.0.0-beta.3-1050ebb.tgz",
+    "@h5web/h5wasm": "file:vendor/h5web-h5wasm-18.0.0-beta.3-1050ebb.tgz",
     "@react-hookz/web": "26.1.0",
     "h5wasm-plugins": "file:vendor/h5wasm-plugins-0.3.0-wasm64-4677c68.tgz",
     "modern-normalize": "3.0.1",
