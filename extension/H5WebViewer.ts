@@ -145,6 +145,14 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
         return;
       }
 
+      if (evt.type === MessageType.ToggleFullscreen) {
+        // Webviews can't use the Fullscreen API: maximise the editor instead
+        await commands.executeCommand(
+          'workbench.action.toggleMaximizeEditorGroup',
+        );
+        return;
+      }
+
       if (evt.type === MessageType.Export) {
         const { format, name, payload } = evt.data;
 

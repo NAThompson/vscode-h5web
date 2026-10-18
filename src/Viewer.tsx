@@ -1,9 +1,10 @@
 import { App } from '@h5web/app';
 import { H5WasmRemoteFileProvider } from '@h5web/h5wasm';
 
-import { type FileInfo } from '../extension/models.js';
+import { type FileInfo, MessageType } from '../extension/models.js';
 import BufferViewer from './BufferViewer';
 import { getExportURL, getPluginGetter, shouldUseWasm64 } from './utils';
+import { vscode } from './vscode-api';
 import WidthGuard from './WidthGuard.js';
 
 interface Props {
@@ -17,7 +18,12 @@ function Viewer(props: Props) {
 
   const app = (
     <WidthGuard>
-      <App disableDarkMode={disableDarkMode} />
+      <App
+        disableDarkMode={disableDarkMode}
+        onToggleFullscreen={() => {
+          vscode.postMessage({ type: MessageType.ToggleFullscreen });
+        }}
+      />
     </WidthGuard>
   );
 

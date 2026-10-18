@@ -3,12 +3,14 @@ import { type ExportFormat } from '@h5web/app';
 export type Message =
   | { type: MessageType.Ready }
   | { type: MessageType.FileInfo; data: FileInfo }
-  | { type: MessageType.Export; data: Export };
+  | { type: MessageType.Export; data: Export }
+  | { type: MessageType.ToggleFullscreen };
 
 export enum MessageType {
   Ready = 'Ready',
   FileInfo = 'FileInfo',
   Export = 'Export',
+  ToggleFullscreen = 'ToggleFullscreen',
 }
 
 export interface FileInfo {
