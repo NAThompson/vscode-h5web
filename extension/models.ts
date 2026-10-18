@@ -4,7 +4,7 @@ export type Message =
   | { type: MessageType.Ready }
   | { type: MessageType.FileInfo; data: FileInfo }
   | { type: MessageType.Export; data: Export }
-  | { type: MessageType.ToggleFullscreen };
+  | { type: MessageType.ToggleFullscreen; data: { isFullscreen: boolean } };
 
 export enum MessageType {
   Ready = 'Ready',

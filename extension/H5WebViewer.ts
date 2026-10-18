@@ -146,10 +146,17 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
       }
 
       if (evt.type === MessageType.ToggleFullscreen) {
-        // Webviews can't use the Fullscreen API: maximise the editor instead
-        await commands.executeCommand(
-          'workbench.action.toggleMaximizeEditorGroup',
-        );
+        // Webviews can't use the Fullscreen API: Zen mode hides the workbench (full screen by default)
+        if (!evt.data.isFullscreen) {
+          await commands.executeCommand('workbench.action.exitZenMode');
+          return;
+        }
+        await commands.executeCommand('workbench.action.toggleZenMode');
+        if (workspace.getConfiguration('zenMode').get('centerLayout')) {
+          await commands.executeCommand(
+            'workbench.action.toggleCenteredLayout',
+          ); // plot fills the width
+        }
         return;
       }
 

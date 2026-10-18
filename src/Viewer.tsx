@@ -20,8 +20,11 @@ function Viewer(props: Props) {
     <WidthGuard>
       <App
         disableDarkMode={disableDarkMode}
-        onToggleFullscreen={() => {
-          vscode.postMessage({ type: MessageType.ToggleFullscreen });
+        onToggleFullscreen={(isFullscreen) => {
+          vscode.postMessage({
+            type: MessageType.ToggleFullscreen,
+            data: { isFullscreen },
+          });
         }}
       />
     </WidthGuard>
