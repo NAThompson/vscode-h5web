@@ -2,17 +2,21 @@
 
 ## dev
 
+## [v0.2.3](https://github.com/silx-kit/vscode-h5web/compare/v0.2.2...v0.2.3)
+
 - 🧩 Open `.nde` files in H5Web by default
+- ✨ Upgrade H5Web to
+  [v18.0.0](https://github.com/silx-kit/h5web/releases/tag/v18.0.0)
 - ✨ Improve error display when a file is deleted
 - ✨ Reload a file automatically when it is recreated
 - ✨ Follow VS Code's theme by default instead of the operating system's
 - ⚙️ Add `h5web.colorScheme` setting to control the color scheme behaviour
   (requires reopening H5Web editors)
+- 🐛 Fix sidebar collapsing when switching from a text editor in VS Code 1.126+
 - 🐛 Release the previous contents of the file from memory when it is reloaded
 - 🐛 Stop leaving a copy of every file opened from the explorer in VS Code's
   webview cache, where copies accumulated with no size limit and were never
   evicted
-- 🐛 Fix sidebar collapsing when switching from a text editor in VS Code 1.126+
 
 ## [v0.2.2](https://github.com/silx-kit/vscode-h5web/compare/v0.2.1...v0.2.2)
 
