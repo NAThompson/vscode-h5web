@@ -41,7 +41,8 @@ following file extensions: `.h5`, `.hdf`, `.hdf5`, `hf5`, `.nx`
 [`.geoh5`](https://mirageoscience-geoh5py.readthedocs-hosted.com/en/v0.8.0/content/geoh5_format/index.html),
 [`.h5oina`](https://github.com/oinanoanalysis/h5oina),
 [`.h5ad`](https://anndata.readthedocs.io/en/latest/index.html),
-[`.nde`](https://ndeformat.com/latest/).
+[`.nde`](https://ndeformat.com/latest/),
+[`.vtkhdf`](https://docs.vtk.org/en/latest/design_documents/VTKFileFormats.html#vtkhdf-file-format).
 
 To add more extensions, don't hesitate to
 [open an issue](https://github.com/silx-kit/vscode-h5web/issues/new) or

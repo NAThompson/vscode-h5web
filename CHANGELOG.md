@@ -3,6 +3,7 @@
 ## dev
 
 - 🧩 Open `.nde` files in H5Web by default
+- 🧩 Open `.vtkhdf` files in H5Web by default
 - ✨ Improve error display when a file is deleted
 - ✨ Reload a file automatically when it is recreated
 - ✨ Follow VS Code's theme by default instead of the operating system's
