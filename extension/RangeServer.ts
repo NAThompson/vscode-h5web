@@ -155,9 +155,8 @@ export default class RangeServer {
     }
 
     let size: number;
-    let mtimeMs: number;
     try {
-      ({ size, mtimeMs } = statSync(entry.fsPath));
+      ({ size } = statSync(entry.fsPath));
     } catch {
       res.writeHead(404, corsHeaders).end();
       return;
@@ -168,8 +167,7 @@ export default class RangeServer {
       'Accept-Ranges': 'bytes',
       'Cache-Control': 'no-store',
       'Content-Type': 'application/octet-stream',
-      ETag: `"${size.toString(16)}-${Math.trunc(mtimeMs).toString(16)}"`,
-      'Last-Modified': new Date(mtimeMs).toUTCString(),
+      // No `ETag`/`Last-Modified`: SWMR writers change files as they're read, and the viewer reloads on change anyway
     };
 
     const range = parseRange(req.headers.range, size);

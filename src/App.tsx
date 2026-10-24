@@ -1,5 +1,5 @@
 import { useEventListener } from '@react-hookz/web';
-import { Suspense, useEffect, useState } from 'react';
+import { startTransition, Suspense, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { clear } from 'suspend-react';
 
@@ -20,7 +20,8 @@ function App() {
   useEventListener(globalThis, 'message', (evt: MessageEvent<Message>) => {
     const { data: message } = evt;
     if (message.type === MessageType.FileInfo) {
-      setFileInfo(message.data);
+      // Keep showing the current file until the reloaded one is ready (e.g. SWMR file updating live)
+      startTransition(() => setFileInfo(message.data));
     }
   });
 
