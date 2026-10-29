@@ -139,7 +139,7 @@ export default class H5WebViewer implements CustomReadonlyEditorProvider {
         watchFile(document.uri.fsPath, { interval: 1000 }, onStatChange); // 1s so files written in SWMR mode update live
 
         webviewPanel.onDidDispose(() => {
-          unwatchFile(document.uri.fsPath, { interval: 1000 }, onStatChange); // 1s so files written in SWMR mode update live // other editors may still be watching the file
+          unwatchFile(document.uri.fsPath, onStatChange); // other editors may still be watching the file
         });
 
         return;
