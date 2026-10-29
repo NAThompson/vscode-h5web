@@ -39,7 +39,9 @@ f["density"].attrs.update({"H5WEB_vis": "volume", "H5WEB_iso_levels": [0.5]})
 
 The full list of attributes is in
 [docs/view-hints.md](https://github.com/NAThompson/h5web/blob/fork/docs/view-hints.md)
-in the H5Web fork.
+in the H5Web fork. The installed extension also ships it as `VIEW_HINTS.md` in
+its folder (`~/.vscode/extensions/nathompson.vscode-h5web-<version>/`), matching
+the viewer version.
 
 ## Supported HDF5 file extensions
 
