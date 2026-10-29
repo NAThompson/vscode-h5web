@@ -2,6 +2,7 @@ import { type ExtensionContext, window } from 'vscode';
 
 import H5WebViewer from './H5WebViewer';
 import RangeServer from './RangeServer';
+import { installSkill } from './skill';
 
 // Distinct from upstream extension's, so both can be installed side by side
 const EDITOR_IDS = ['h5webFork.viewer', 'h5webFork.fallback-viewer'];
@@ -11,6 +12,7 @@ export function activate(context: ExtensionContext): void {
     log: true,
   });
   const rangeServer = new RangeServer();
+  void installSkill(context, outputChannel);
 
   context.subscriptions.push(
     rangeServer,

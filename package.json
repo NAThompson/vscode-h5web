@@ -71,6 +71,11 @@
             "Use a dark color scheme"
           ]
         },
+        "h5webFork.claudeSkill": {
+          "description": "Keep the Claude Code skill on view hints (`~/.claude/skills/h5web-view-hints/SKILL.md`) up to date with this version of the viewer, if Claude Code is installed (`~/.claude` exists).",
+          "type": "boolean",
+          "default": true
+        },
         "h5webFork.wasm64": {
           "description": "Use the 64-bit (Memory64) build of HDF5 when the webview supports it, to read slices larger than what the 32-bit build can hold. Turn off to force the 32-bit build.",
           "type": "boolean",
@@ -79,12 +84,15 @@
       }
     }
   },
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/main.js",
   "scripts": {
     "build": "pnpm build:app && pnpm notices && pnpm hint-docs && pnpm clean:extension && pnpm build:extension --minify",
     "build:app": "vite build",
     "notices": "node scripts/third-party-notices.mjs",
-    "hint-docs": "node -e \"fs.copyFileSync('node_modules/@h5web/app/dist/view-hints.md', 'VIEW_HINTS.md')\"",
+    "hint-docs": "node -e \"fs.copyFileSync('node_modules/@h5web/app/dist/view-hints.md', 'VIEW_HINTS.md'); fs.copyFileSync('node_modules/@h5web/app/dist/view-hints-skill.md', 'CLAUDE_SKILL.md')\"",
     "clean:extension": "node -e \"fs.rmSync('out', { recursive: true, force: true })\"",
     "build:extension": "esbuild ./extension/index.ts --bundle --outfile=out/main.js --external:vscode --loader:.so=file --format=esm --platform=node",
     "watch": "pnpm build:extension --sourcemap --watch",

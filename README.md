@@ -41,7 +41,7 @@ The full list of attributes is in
 [docs/view-hints.md](https://github.com/NAThompson/h5web/blob/fork/docs/view-hints.md)
 in the H5Web fork. The installed extension also ships it as `VIEW_HINTS.md` in
 its folder (`~/.vscode/extensions/nathompson.vscode-h5web-<version>/`), matching
-the viewer version.
+the viewer version, along with a [Claude Code skill](#h5webforkclaudeskill).
 
 ## Supported HDF5 file extensions
 
@@ -146,6 +146,16 @@ VS Code's theme.
 Use the 64-bit (Memory64) build of HDF5 when the webview supports it (default),
 which can read larger slices than the 32-bit build. Turn it off to force the
 32-bit build. Without Memory64 support, the 32-bit build is always used.
+
+### `h5webFork.claudeSkill`
+
+If [Claude Code](https://claude.com/claude-code) is installed (`~/.claude`
+exists), the extension keeps the skill
+`~/.claude/skills/h5web-view-hints/SKILL.md` in step with its version of the
+viewer: Claude reads it when writing HDF5 files meant for H5Web, and it points
+to the extension's `VIEW_HINTS.md`. Each update of the extension replaces it
+(edit `docs/view-hints-skill.md` in the H5Web fork instead). Turn it off to
+leave the skill alone (delete the file to remove it).
 
 ## Building the fork
 
