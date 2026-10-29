@@ -25,6 +25,22 @@ Explore and visualise **HDF5 files** directly in Visual Studio Code with
 
 ![GIF recording](./assets/vscode-h5web.gif)
 
+## View hints: choosing how a dataset opens
+
+Native HDF5 attributes named `H5WEB_*` tell the viewer which visualization to
+open and how to set it up (scale, colormap, isosurfaces, overlays, playback…).
+Write them when you create the file:
+
+```python
+f["psi"].attrs.update({"H5WEB_vis": "heatmap", "H5WEB_scale": "symlog",
+                       "H5WEB_colormap": "auto", "H5WEB_keep_ratio": 1})
+f["density"].attrs.update({"H5WEB_vis": "volume", "H5WEB_iso_levels": [0.5]})
+```
+
+The full list of attributes is in
+[docs/view-hints.md](https://github.com/NAThompson/h5web/blob/fork/docs/view-hints.md)
+in the H5Web fork.
+
 ## Supported HDF5 file extensions
 
 Out of the box, the H5Web viewer is configured as the default editor for the
