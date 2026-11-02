@@ -23,6 +23,7 @@
   /* Change line colors for better contrast once inverted */
   --h5w-line--color: deepskyblue;
   --h5w-line--colorAux: orange, lightgreen, red, violet, gold;
+  --h5w-line--colorForeground: #fefefe; /* white, but not the white of the page (cf. snapshots) */
 }
 
 [data-color-scheme='dark'] #root [data-keep-colors],
