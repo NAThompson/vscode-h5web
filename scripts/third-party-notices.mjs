@@ -13,7 +13,7 @@ const root = path.resolve(import.meta.dirname, '..');
 const read = (file) => readFileSync(path.join(root, file), 'utf8'); // eslint-disable-line func-style
 
 const PERMISSIVE =
-  /^(?:MIT|ISC|Apache-2\.0|0BSD|BSD-[23]-Clause|Zlib|BlueOak-1\.0\.0|Unlicense|CC0-1\.0)$/u;
+  /^(?:MIT|ISC|Apache-2\.0|0BSD|BSD-[23]-Clause|Zlib|BSL-1\.0|BlueOak-1\.0\.0|Unlicense|CC0-1\.0)$/u;
 
 const components = JSON.parse(read('third-party/components.json'));
 const viteLicenses = read('dist/.vite/license.md');

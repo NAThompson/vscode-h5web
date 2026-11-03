@@ -4,6 +4,12 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react()],
   publicDir: false,
+  // Assets referenced from JS (e.g. the Boost.Math `.wasm`) relative to their chunk: the webview
+  // serves `dist/` under the extension's path, not at the root
+  experimental: {
+    renderBuiltUrl: (_, { hostType }) =>
+      hostType === 'js' ? { relative: true } : undefined,
+  },
   build: {
     // Opt-in (`H5WEB_SOURCEMAP=1`): inline maps triple what the webview loads on startup;
     // external sourcemaps can't be loaded from webviews
